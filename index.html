@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script src="https://kit.fontawesome.com/6d5f5e1942.js" crossorigin="anonymous"></script>
+    <title>ToDo App</title>
+</head>
+
+<body>
+    <!-- Container -->
+    <div class="container">
+        <!-- Title -->
+        <h1 class="title">TODO <i class="fab fa-vuejs"></i> APP</h1>
+        <!-- todoapp -->
+        <div class="todoapp" id="app">
+            <!-- form Input button add -->
+            <form @submit.prevent="addValue">
+                <input class="inputvalue" v-model="inputValue" placeholder="Add a todo!"
+                maxlength="15" minlength="1" autofocus>
+                <button class="btn add" type="submit">Add</button>
+            </form>
+            <ul>
+                <!-- Todos -->
+                <li class="todos" v-for="(todo, index) in filtered">
+                    <div class="text" :class="{underline: todo.completed}">
+                        <span class="checkbox" @click="check(todo)">
+                            <i class="fa fa-check" :class="{active: todo.completed}"></i>
+                        </span>
+
+                        <span @dblclick="editTodo(todo)"  :class="{displaynone: activeEdit}">
+                            {{todo.text}}
+                        </span>
+                        <!-- Input Edit -->
+                        <input class="inputedit" type="text" v-on:keyup.enter="doneEdit(todo)"
+                        v-model="todo.text" @blur="doneEdit(todo)" v-show="todo == activeEdit">
+
+                    </div>
+                    <!-- buttons -->
+                    <div class="buttons">
+                        <button class="edit" @click="editTodo(todo)">
+                        <i class="far fa-edit"></i>
+                    </button>
+                        <button class="delete" @click="deleteATodo(index)">
+                        <i class="fas fa-trash-alt icon-red"></i>
+                     </button>
+                    </div>
+                </li>
+            </ul>
+            <hr>
+            <br>
+            <section>
+                <button class="btn" :class="{filterActive: filter == 'all'}" @click="filter = 'all'">All</button>
+                <button class="btn" :class="{filterActive: filter == 'notdone'}" @click="filter = 'notdone'">To do</button>
+                <button class="btn" :class="{filterActive: filter == 'done'}" @click="filter = 'done'">Completed</button>
+                <p>{{left}} Left</p>
+            </section>
+
+        </div>
+    </div>
+    <script src="app.js"></script>
+</body>
+
+</html>
